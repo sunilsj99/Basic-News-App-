@@ -1,0 +1,16 @@
+.news-item {
+    border: 2px solid lightskyblue;
+    border-radius: 10px;
+    margin: 20px;
+    padding: 10px;
+    background-color: papayawhip;
+}
+ul li{
+    list-style: none;
+    display: inline;
+}
+
+.image {
+    height: 200px;
+    width: 200px;
+}
