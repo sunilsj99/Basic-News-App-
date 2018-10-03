@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getNews } from "../actions/index";
+import moment from 'moment';
 import "./news.css";
 
 class News extends Component {
@@ -22,9 +23,10 @@ class News extends Component {
   // }
 
   render() {
+    const {news} = this.props;
     return (
       <div className="container">
-        {this.props.news.map(newsItem => {
+        {news.map(newsItem => {
           return newsItem.articles.map((item, i) => {
             return (
               <div key={i} className="news-item">
@@ -35,7 +37,7 @@ class News extends Component {
                   <div className="col-sm-9">
                     <h4>{item.title}</h4>
                     <p>{item.source.name}</p>
-                    <p>{item.publishedAt}</p>
+                    <p>{moment.utc(item.publishedAt).format('MMM DD YYYY')}</p>
                     <p>{item.description}</p>
                     <a href={item.url}>
                       <button className="btn btn-primary">Go to source</button>
