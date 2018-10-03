@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import NewsApp from './container/news';
+import React, { Component } from "react";
+import NewsApp from "./container/news";
 
 class App extends Component {
   render() {
@@ -13,8 +13,8 @@ class App extends Component {
 }
 
 const header = {
-  textAlign: 'center',
-  color: 'blue'
+  textAlign: "center",
+  color: "blue"
 };
 
 export default App;
