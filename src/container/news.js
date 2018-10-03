@@ -1,15 +1,15 @@
-import React, {Component} from 'react';
-import { connect } from 'react-redux';
-import { getNews } from '../actions/index';
-import './news.css';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { getNews } from "../actions/index";
+import "./news.css";
 
-class News extends Component{
-    constructor(props){
+class News extends Component {
+    constructor(props) {
         super(props);
         this.articles = [];
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.getNews();
     }
 
@@ -21,37 +21,52 @@ class News extends Component{
     //     })
     // }
 
-
-    render(){
-        return(
-            <div className='container'>
-            {
-                    this.props.news.map((newsItem) => {
-                        return( 
-                            newsItem.articles.map((item,i) => {
-                            return ( 
-                             <div key={i} className='news-item'>
-                                <div className='row'>
-                                    <div className='col-sm-3'><img src={item.urlToImage} className='image'/></div>
-                                    <div className='col-sm-9'>
+    render() {
+        return (
+            <div className="container">
+                {this.props.news.map(newsItem => {
+                    return newsItem.articles.map((item, i) => {
+                        const publishDate = new Date(
+                            item.publishedAt
+                        ).toLocaleDateString();
+                        return (
+                            <div key={i} className="news-item">
+                                <div className="row">
+                                    <div className="col-sm-3">
+                                        <img
+                                            src={item.urlToImage}
+                                            className="image"
+                                        />
+                                    </div>
+                                    <div className="col-sm-9">
                                         <h4>{item.title}</h4>
-                                        <p>{item.source.name}</p>
-                                        <p>{item.publishedAt}</p>
-                                        <p>{item.description}</p>
-                                        <a href={item.url}><button className='btn btn-primary'>Go to source</button></a>
+                                        <p className="source-text">
+                                            Posted via {item.source.name}
+                                        </p>
+                                        <p className="published-text">
+                                            Published on {publishDate}
+                                        </p>
+                                        <p className="description-text">
+                                            {item.description}
+                                        </p>
+                                        <a
+                                            className="article-link"
+                                            href={item.url}
+                                        >
+                                            <button className="source-btn btn btn-primary">
+                                                Read more
+                                            </button>
+                                        </a>
                                     </div>
                                 </div>
-                             </div>
-                            );
-                        })
-                    )
-                    })
-            }
+                            </div>
+                        );
+                    });
+                })}
             </div>
         );
     }
 }
-
 
 function mapStateToProps(state) {
     return {
@@ -59,5 +74,4 @@ function mapStateToProps(state) {
     };
 }
 
-
-export default connect(mapStateToProps, {getNews})(News);
+export default connect(mapStateToProps, { getNews })(News);
