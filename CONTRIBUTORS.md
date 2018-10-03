@@ -1,8 +1,10 @@
 ## Contributions Guidelines
 
+* Fork the repository
+
 1. Clone the github repository using the following command.
 
-```git clone https://github.com/sunilsj99/Basic-News-App-.git```
+```git clone https://github.com/[your_username]/Basic-News-App-.git```
   
 2. Now follow the set of commands as mentioned.
 
