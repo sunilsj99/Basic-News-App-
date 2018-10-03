@@ -5,16 +5,16 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1 style={header}>News App</h1>
+        <h1 className="main__headline">News App</h1>
         <NewsApp />
       </div>
     );
   }
 }
 
-const header = {
-  textAlign: 'center',
-  color: 'blue'
-};
+// const header = {
+//   textAlign: 'center',
+//   color: 'blue'
+// };
 
 export default App;
