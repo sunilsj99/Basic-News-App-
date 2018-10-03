@@ -1,63 +1,80 @@
-import React, {Component} from 'react';
-import { connect } from 'react-redux';
-import { getNews } from '../actions/index';
-import './news.css';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { getNews } from "../actions/index";
+import "./news.css";
 
-class News extends Component{
-    constructor(props){
-        super(props);
-        this.articles = [];
-    }
+class News extends Component {
+  state = {
+    loading: true
+  };
 
-    componentDidMount(){
-        this.props.getNews();
-    }
+  componentDidMount = async () => {
+    await this.props.getNews();
+    this.setState({ loading: false });
+  };
 
-    // renderNews(newsItem){
-    //     newsItem.articles.map((item) => {
-    //         return (
-    //             <h1>{item.title}</h1>
-    //         );
-    //     })
-    // }
+  // renderNews(newsItem){
+  //     newsItem.articles.map((item) => {
+  //         return (
+  //             <h1>{item.title}</h1>
+  //         );
+  //     })
+  // }
 
+  render() {
+    return (
+      <div className="container">
+        {!this.state.loading ? (
+          this.props.news.map(newsItem => {
+            return newsItem.articles.map((item, i) => {
+              const date = new Date(item.publishedAt);
 
-    render(){
-        return(
-            <div className='container'>
-            {
-                    this.props.news.map((newsItem) => {
-                        return( 
-                            newsItem.articles.map((item,i) => {
-                            return ( 
-                             <div key={i} className='news-item'>
-                                <div className='row'>
-                                    <div className='col-sm-3'><img src={item.urlToImage} className='image'/></div>
-                                    <div className='col-sm-9'>
-                                        <h4>{item.title}</h4>
-                                        <p>{item.source.name}</p>
-                                        <p>{item.publishedAt}</p>
-                                        <p>{item.description}</p>
-                                        <a href={item.url}><button className='btn btn-primary'>Go to source</button></a>
-                                    </div>
-                                </div>
-                             </div>
-                            );
-                        })
-                    )
-                    })
-            }
-            </div>
-        );
-    }
+              return (
+                <div key={i} className="news-item">
+                  <div className="news-pic">
+                    {item.urlToImage ? (
+                      <img
+                        src={item.urlToImage}
+                        className="image"
+                        alt="No Photo available"
+                      />
+                    ) : (
+                      <div className="placeholder">No Photo available</div>
+                    )}
+                  </div>
+
+                  <div className="news-info">
+                    <h4>{item.title}</h4>
+                    <p className="source">{item.source.name}</p>
+                    <p>{date.toLocaleDateString()}</p>
+                    <p>{item.description}</p>
+                    <a className="button-holder" href={item.url}>
+                      <button className="btn btn-primary">Go to source</button>
+                    </a>
+                  </div>
+                </div>
+              );
+            });
+          })
+        ) : (
+          <div
+            className={`spinner-container ${
+              this.state.loading ? "spinner" : ""
+            }`}
+          />
+        )}
+      </div>
+    );
+  }
 }
-
 
 function mapStateToProps(state) {
-    return {
-        news: state.news
-    };
+  return {
+    news: state.news
+  };
 }
 
-
-export default connect(mapStateToProps, {getNews})(News);
+export default connect(
+  mapStateToProps,
+  { getNews }
+)(News);
