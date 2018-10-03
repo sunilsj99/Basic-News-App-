@@ -1,15 +1,17 @@
-import React, {Component} from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { getNews } from '../actions/index';
+import { formatDistance } from 'date-fns';
+
 import './news.css';
 
-class News extends Component{
-    constructor(props){
+class News extends Component {
+    constructor(props) {
         super(props);
         this.articles = [];
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.getNews();
     }
 
@@ -22,31 +24,33 @@ class News extends Component{
     // }
 
 
-    render(){
-        return(
-            <div className='container'>
-            {
+    render() {
+        return (
+            <div className='news-container'>
+                {
                     this.props.news.map((newsItem) => {
-                        return( 
-                            newsItem.articles.map((item,i) => {
-                            return ( 
-                             <div key={i} className='news-item'>
-                                <div className='row'>
-                                    <div className='col-sm-3'><img src={item.urlToImage} className='image'/></div>
-                                    <div className='col-sm-9'>
-                                        <h4>{item.title}</h4>
-                                        <p>{item.source.name}</p>
-                                        <p>{item.publishedAt}</p>
-                                        <p>{item.description}</p>
-                                        <a href={item.url}><button className='btn btn-primary'>Go to source</button></a>
-                                    </div>
-                                </div>
-                             </div>
-                            );
-                        })
-                    )
+                        return (
+                            newsItem.articles.map((item, i) => {
+                                return (
+                                    <a href={item.url}>
+                                        <article key={i} className='news-card'>
+                                            {item.urlToImage &&
+                                                <img src={item.urlToImage} className='news-card__image' />
+                                            }
+                                            <div className='news-card__content'>
+                                                <div className="news-card__meta">
+                                                    <p>{`${item.source.name} -  ${formatDistance(item.publishedAt, new Date())} ago`}</p>
+                                                </div>
+                                                <h2 className="news-card__title">{item.title}</h2>
+                                                <p className="news-card__description">{item.description ? item.description.substring(0, 144) + "..." : ""}</p>
+                                            </div>
+                                        </article>
+                                    </a>
+                                );
+                            })
+                        )
                     })
-            }
+                }
             </div>
         );
     }
@@ -60,4 +64,4 @@ function mapStateToProps(state) {
 }
 
 
-export default connect(mapStateToProps, {getNews})(News);
+export default connect(mapStateToProps, { getNews })(News);
