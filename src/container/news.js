@@ -7,10 +7,25 @@ class News extends Component {
     constructor(props) {
         super(props);
         this.articles = [];
+
+        this.state = { location: "" };
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    componentDidMount() {
-        this.props.getNews();
+    // componentDidMount() {
+    //     this.props.getNews();
+    // }
+
+    handleChange(event) {
+        this.setState({ location: event.target.value });
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        this.props.getNews(this.state.location);
+        this.setState({ location: "" });
     }
 
     // renderNews(newsItem){
@@ -24,6 +39,17 @@ class News extends Component {
     render() {
         return (
             <div className="container">
+                <form className="location-form" onSubmit={this.handleSubmit}>
+                    <label>Enter your country (abbreviation)</label>
+                    <input
+                        type="text"
+                        value={this.state.location}
+                        placeholder="eg., IN, US, DE"
+                        onChange={this.handleChange}
+                        name="location"
+                    />
+                    <button className="location-input-btn btn btn-primary">See News</button>
+                </form>
                 {this.props.news.map(newsItem => {
                     return newsItem.articles.map((item, i) => {
                         const publishDate = new Date(
@@ -32,13 +58,13 @@ class News extends Component {
                         return (
                             <div key={i} className="news-item">
                                 <div className="row">
-                                    <div className="col-sm-3">
+                                    <div className="col-lg-3">
                                         <img
                                             src={item.urlToImage}
                                             className="image"
                                         />
                                     </div>
-                                    <div className="col-sm-9">
+                                    <div className="col-lg-9">
                                         <h4>{item.title}</h4>
                                         <p className="source-text">
                                             Posted via {item.source.name}
