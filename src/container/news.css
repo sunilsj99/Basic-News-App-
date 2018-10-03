@@ -1,16 +1,26 @@
 .news-item {
-    border: 2px solid lightskyblue;
-    border-radius: 10px;
+    border: 2px solid black;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
     margin: 20px;
     padding: 10px;
-    background-color: papayawhip;
+    box-shadow: 0 0 4px 0px #333;
 }
 ul li{
     list-style: none;
     display: inline;
 }
 
-.image {
-    height: 200px;
-    width: 200px;
+h4{
+    font-family: 'Yanone+Kaffeesatz', sans-serif;
 }
+a {
+    text-decoration: none !important;
+    cursor: pointer;
+    color: black;
+}
+
+a:hover{
+    color: skyblue;
+}
+
