@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 const API_KEY = '59416e04907c46578a63abedcbb98155';
-const ROOT_URL = `https://newsapi.org/v2/top-headlines?country=in&apiKey=${API_KEY}`;
+const ROOT_URL = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${API_KEY}`;
 
 export const GET_NEWS = 'get-news';
 
