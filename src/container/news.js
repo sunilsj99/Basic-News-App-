@@ -32,13 +32,12 @@ class News extends Component{
                             return ( 
                              <div key={i} className='news-item'>
                                 <div className='row'>
-                                    <div className='col-sm-3'><img src={item.urlToImage} className='image'/></div>
+                                    <div className='col-sm-3'><img src={item.urlToImage} className='img-thumbnail'/></div>
                                     <div className='col-sm-9'>
                                         <h4>{item.title}</h4>
                                         <p>{item.source.name}</p>
                                         <p>{item.publishedAt}</p>
-                                        <p>{item.description}</p>
-                                        <a href={item.url}><button className='btn btn-primary'>Go to source</button></a>
+                                        <p>{item.description +"..."}<a href={item.url}> <i></i>Read More</a></p>
                                     </div>
                                 </div>
                              </div>
