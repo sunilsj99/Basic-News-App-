@@ -1,18 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getNews } from "../actions/index";
-import moment from 'moment';
 import "./news.css";
 
 class News extends Component {
-  constructor(props) {
-    super(props);
-    this.articles = [];
-  }
+  state = {
+    loading: true
+  };
 
-  componentDidMount() {
-    this.props.getNews();
-  }
+  componentDidMount = async () => {
+    await this.props.getNews();
+    this.setState({ loading: false });
+  };
 
   // renderNews(newsItem){
   //     newsItem.articles.map((item) => {
@@ -23,31 +22,47 @@ class News extends Component {
   // }
 
   render() {
-    const {news} = this.props;
     return (
       <div className="container">
-        {news.map(newsItem => {
-          return newsItem.articles.map((item, i) => {
-            return (
-              <div key={i} className="news-item">
-                <div className="row">
-                  <div className="col-sm-3">
-                    <img src={item.urlToImage} className="image" />
+        {!this.state.loading ? (
+          this.props.news.map(newsItem => {
+            return newsItem.articles.map((item, i) => {
+              const date = new Date(item.publishedAt);
+
+              return (
+                <div key={i} className="news-item">
+                  <div className="news-pic">
+                    {item.urlToImage ? (
+                      <img
+                        src={item.urlToImage}
+                        className="image"
+                        alt="No Photo available"
+                      />
+                    ) : (
+                      <div className="placeholder">No Photo available</div>
+                    )}
                   </div>
-                  <div className="col-sm-9">
+
+                  <div className="news-info">
                     <h4>{item.title}</h4>
-                    <p>{item.source.name}</p>
-                    <p>{moment.utc(item.publishedAt).format('MMM DD YYYY')}</p>
+                    <p className="source">{item.source.name}</p>
+                    <p>{date.toLocaleDateString()}</p>
                     <p>{item.description}</p>
-                    <a href={item.url}>
+                    <a className="button-holder" href={item.url}>
                       <button className="btn btn-primary">Go to source</button>
                     </a>
                   </div>
                 </div>
-              </div>
-            );
-          });
-        })}
+              );
+            });
+          })
+        ) : (
+          <div
+            className={`spinner-container ${
+              this.state.loading ? "spinner" : ""
+            }`}
+          />
+        )}
       </div>
     );
   }
